@@ -1,11 +1,27 @@
+git:
+  depth: 10
+
 language: node_js
-node_js:
-  - "6"
-
-script:
-  - npm run test-travis
-
-after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
 
 cache:
   yarn: true
+  directories:
+  - node_modules
+
+node_js:
+  - '8'
+  - '7'
+  - '6'
+
+before_install:
+  - npm i -g yarn
+  - yarn
+  - lerna bootstrap
+
+script:
+  - npm test
+
+after_success:
+  - npm run coverage
+  - npm run coverage:combine
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

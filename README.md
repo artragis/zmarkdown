@@ -1,128 +1,42 @@
-[![Build Status](https://travis-ci.org/zestedesavoir/zmarkdown.svg?branch=master)](https://travis-ci.org/zestedesavoir/zmarkdown)
-[![Coverage Status](https://coveralls.io/repos/zestedesavoir/zmarkdown/badge.svg)](https://coveralls.io/r/zestedesavoir/zmarkdown)
+# zmarkdown [![Build Status][build-badge]][build-status] [![Coverage Status][coverage-badge]][coverage-status]
 
-# zmarkdown
+This repository forms the basis for zmarkdown, the JavaScript project intended to replace [Python-ZMarkdown][pyzmd], the current Markdown engine powering [Zeste de Savoir][zds].
 
-zmarkdown is [remark](https://github.com/wooorm/remark)-based reimplementation of [Python-ZMarkdown](https://github.com/zestedesavoir/Python-ZMarkdown).
+It is a collection of packages extending the [**remark**
+processor][processor] and its [**MDAST**][mdast] syntax tree, [**rehype**][rehype] (for HTML processing) and [**textr**][textr] (text transformation framework).
 
 ## Install
 
 *This project requires node >= 6.*
 
 1. clone
-2. `$ yarn` or `npm install`
+2. `yarn` or `npm install`
 3. `npm run test`
 
-## Contribute
+## License
 
-* Enable a test by remove its `.skip`.
-* Run tests, see how it fails.
-* Write a plugin solving the issue or fix the test fixture. Each plugin is a `packages/` subfolder.
-* You can inspect the AST at various transform stages, see `index.js`
-* Once you wrote a plugin, `use()` it in `index.js`.
-* Make sure tests are still passing and coverage isn't going down.
+[MIT][license] © [Zeste de Savoir][zds]
 
-# diff
+<!-- Definitions -->
 
-## link title, link URL encoding
+[build-badge]: https://img.shields.io/travis/zestedesavoir/zmarkdown.svg
 
-`[link](<simple link> "my title")`
+[build-status]: https://travis-ci.org/zestedesavoir/zmarkdown
 
-becomes
-`<p><a href="simple%20link" title="my title">link</a>`
+[coverage-badge]: https://img.shields.io/coveralls/zestedesavoir/zmarkdown.svg
 
-instead of
-`<p><a href="simple link" title>link</a>`
+[coverage-status]: https://coveralls.io/github/zestedesavoir/zmarkdown
 
-## list item indented code block
+[license]: https://github.com/zestedesavoir/zmarkdown/blob/master/LICENSE-MIT
 
-before:
+[processor]: https://github.com/wooorm/remark/blob/master/packages/remark
 
-```
-* list item
+[mdast]: https://github.com/wooorm/mdast
 
-        indented code
-```
+[pyzmd]: https://github.com/zestedesavoir/Python-ZMarkdown
 
-after:
+[zds]: https://zestedesavoir.com
 
-```
-* list item
+[rehype]: https://github.com/wooorm/rehype
 
-      indented code
-```
-
-## list items with list children are wrapped
-
-before:
-
-```html
-<ul>
-  <li>Tab
-    <ul>
-      <li>Tab
-        <ul>
-          <li>Tab</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-```
-
-after:
-
-```html
-<ul>
-  <li>
-    <p>Tab</p>
-    <ul>
-      <li>
-        <p>Tab</p>
-        <ul>
-          <li>Tab</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-```
-
-## hard wrap is Commonmark compliant
-
-input:
-
-```markdown
-This short paragraph is wrapped at 40
-columns and a line which starts with eg
-1. does not render as a list. It's much
-better that way.
-
-An asterisk followed by a space should
-* create a list anyway! That's what we
-want.
-```
-
-before:
-
-```html
-<p>This short paragraph is wrapped at 40
-columns and a line which starts with eg
-1. does not render as a list. It's much
-better that way.</p>
-<p>An asterisk followed by a space should
-* create a list anyway! That's what we
-want.</p>
-```
-
-after:
-
-```html
-<p>This short paragraph is wrapped at 40
-columns and a line which starts with eg
-1. does not render as a list. It's much
-better that way.</p>
-<p>An asterisk followed by a space should</p>
-<ul><li>create a list anyway! That's what we
-want.</li></ul>
-```
+[textr]: https://github.com/A/textr
